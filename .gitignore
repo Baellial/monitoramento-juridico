@@ -1,0 +1,11 @@
+# Editor
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+*.log
+*.bak
