@@ -52,16 +52,16 @@ npx playwright test   # interface
 
 ---
 
-# Integração Contínua (CI)
+## Integração Contínua (CI)
 O projeto usa GitHub Actions
 Toda alteração nas branches main ou Pull Requests aciona automaticamente os testes
 
 ---
 👥 Autores
-# Pedro Henrique Garcia de Sousa
-# Mirely Feitosa Silva
-# Nicolas da Silva Oliveira Sousa
-# Alexandre Augusto Almeida Melo
-# Marcos Gabriel Pereira dos Santos
+## Pedro Henrique Garcia de Sousa
+## Mirely Feitosa Silva
+## Nicolas da Silva Oliveira Sousa
+## Alexandre Augusto Almeida Melo
+## Marcos Gabriel Pereira dos Santos
 
 ---
