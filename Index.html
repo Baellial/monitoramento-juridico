@@ -1,66 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monitoramento Jurídico</title>
-  <link rel="stylesheet" href="Style.css">
-</head>
-<body>
-
-  <h1>Sistema de Monitoramento Jurídico</h1>
-
-  <div class="container">
-    <label for="descricao">Descrição da Tarefa:</label>
-    <input type="text" id="descricao" placeholder="Ex: Corrigir validação do formulário" />
-
-    <label for="responsavel">Responsável:</label>
-    <input type="text" id="responsavel" placeholder="Ex: Pedro Henrique" />
-
-    <div class="erro" id="erro"></div>
-
-    <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
-
-    <div id="listaTarefas"></div>
-  </div>
-
-  <script>
-    const listaTarefas = document.getElementById('listaTarefas');
-    const erro = document.getElementById('erro');
-
-    function adicionarTarefa() {
-      const descricao = document.getElementById('descricao').value.trim();
-      const responsavel = document.getElementById('responsavel').value.trim();
-
-      if (!descricao || !responsavel) {
-        erro.textContent = 'Preencha todos os campos.';
-        return;
-      }
-
-      erro.textContent = '';
-
-      const div = document.createElement('div');
-      div.className = 'tarefa';
-      div.innerHTML = `
-        <div>
-          <strong>${descricao}</strong><br/>
-          <small>Responsável: ${responsavel}</small>
-        </div>
-        <button onclick="concluirTarefa(this)">Concluir</button>
-      `;
-
-      listaTarefas.prepend(div);
-
-      document.getElementById('descricao').value = '';
-      document.getElementById('responsavel').value = '';
-    }
-
-    function concluirTarefa(botao) {
-      const tarefa = botao.parentElement;
-      tarefa.classList.add('concluida');
-      botao.remove();
-    }
-  </script>
-
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
