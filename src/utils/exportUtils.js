@@ -6,13 +6,16 @@ export function exportarPDF(tarefas) {
   const doc = new jsPDF();
   doc.text("Relatório de Tarefas", 14, 16);
   autoTable(doc, {
-    head: [['Descrição', 'Responsável', 'Criador', 'Data', 'Status']],
+    head: [['Título', 'Descrição', 'Responsável', 'Prioridade', 'Prazo', 'Status', 'Criador', 'Data']],
     body: tarefas.map((t) => [
+      t.titulo,
       t.descricao,
       t.responsavel,
+      t.prioridade,
+      t.prazo,
+      t.status,
       t.criador,
       t.data,
-      t.concluida ? 'Concluída' : 'Pendente',
     ]),
   });
   doc.save('relatorio_tarefas.pdf');
@@ -21,11 +24,14 @@ export function exportarPDF(tarefas) {
 export function exportarExcel(tarefas) {
   const ws = XLSX.utils.json_to_sheet(
     tarefas.map((t) => ({
+      Título: t.titulo,
       Descrição: t.descricao,
       Responsável: t.responsavel,
+      Prioridade: t.prioridade,
+      Prazo: t.prazo,
+      Status: t.status,
       Criador: t.criador,
       Data: t.data,
-      Status: t.concluida ? 'Concluída' : 'Pendente',
     }))
   );
   const wb = XLSX.utils.book_new();

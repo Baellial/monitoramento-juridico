@@ -27,3 +27,4 @@ node_modules
 dist
 .vscode
 .env
+.github/workflows/ci.yml

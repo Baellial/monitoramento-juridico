@@ -1,4 +1,4 @@
-import { LogOut, FileBarChart2, LayoutDashboard } from 'lucide-react';
+import { LogOut, FileBarChart2, LayoutDashboard, Clock4, LayoutList } from 'lucide-react';
 
 export default function Sidebar({ setAba, aba, onLogout }) {
   return (
@@ -20,6 +20,22 @@ export default function Sidebar({ setAba, aba, onLogout }) {
           }`}
         >
           <FileBarChart2 size={18} /> Relatórios
+        </button>
+        <button
+          onClick={() => setAba("kanban")}
+          className={`flex items-center gap-2 text-sm px-2 py-1 rounded-md w-full text-left ${
+            aba === "kanban" ? "text-indigo-700 font-bold" : "text-gray-700 hover:text-indigo-600"
+          }`}
+        >
+          <LayoutList size={18} /> Kanban
+        </button>
+        <button
+          onClick={() => setAba("historico")}
+          className={`flex items-center gap-2 text-sm px-2 py-1 rounded-md w-full text-left ${
+            aba === "historico" ? "text-indigo-700 font-bold" : "text-gray-700 hover:text-indigo-600"
+          }`}
+        >
+          <Clock4 size={18} /> Histórico
         </button>
         <button
           onClick={onLogout}

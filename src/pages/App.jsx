@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import Login from './Login';
-import Dashboard from './Dashboard.jsx';
-import Relatorios from './Relatorios.jsx';
+import Dashboard from './Dashboard';
+import Relatorios from './Relatorios';
+import Historico from './Historico';
+import Pipelines from './Pipelines';
+import KanbanBoard from './KanbanBoard';
 import Sidebar from '../components/Sidebar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const [usuario, setUsuario] = useState(null);
@@ -28,7 +33,11 @@ export default function App() {
       <main className="flex-1 p-6">
         {aba === "dashboard" && <Dashboard usuario={usuario} />}
         {aba === "relatorios" && <Relatorios />}
+        {aba === "historico" && <Historico usuario={usuario} />}
+        {aba === "pipelines" && <Pipelines />}
+        {aba === "kanban" && <KanbanBoard />}
       </main>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

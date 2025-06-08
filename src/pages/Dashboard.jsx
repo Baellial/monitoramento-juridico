@@ -1,91 +1,118 @@
 import { useState } from 'react';
-import { PlusCircle, Filter, CheckCircle } from 'lucide-react';
 import useTarefas from '../hooks/useTarefas';
 import TarefaCard from '../components/TarefaCard';
+import { toast } from 'react-toastify';
 
 export default function Dashboard({ usuario }) {
+  const { tarefas, adicionarTarefa, concluirTarefa } = useTarefas();
+  const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [responsavel, setResponsavel] = useState('');
-  const [filtro, setFiltro] = useState('todas');
-  const [erro, setErro] = useState('');
-  const { tarefas, adicionarTarefa, concluirTarefa } = useTarefas();
+  const [prioridade, setPrioridade] = useState('média');
+  const [prazo, setPrazo] = useState('');
+  const [arquivo, setArquivo] = useState(null);
 
-  const tarefasFiltradas = tarefas.filter((t) => {
-    if (filtro === 'todas') return true;
-    if (filtro === 'concluidas') return t.concluida;
-    return !t.concluida;
-  });
-
-  const handleAdicionar = () => {
-    if (!descricao.trim() || !responsavel.trim()) {
-      setErro('Preencha todos os campos.');
+  const handleAdd = () => {
+    if (!titulo || !descricao || !responsavel || !prazo) {
+      toast.error('Preencha todos os campos obrigatórios.');
       return;
     }
-    adicionarTarefa(descricao, responsavel, usuario);
-    setDescricao('');
-    setResponsavel('');
-    setErro('');
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      adicionarTarefa(
+        titulo,
+        descricao,
+        responsavel,
+        prioridade,
+        prazo,
+        'pendente',
+        usuario,
+        reader.result
+      );
+      setTitulo('');
+      setDescricao('');
+      setResponsavel('');
+      setPrazo('');
+      setArquivo(null);
+    };
+    if (arquivo) {
+      reader.readAsDataURL(arquivo);
+    } else {
+      adicionarTarefa(
+        titulo,
+        descricao,
+        responsavel,
+        prioridade,
+        prazo,
+        'pendente',
+        usuario,
+        null
+      );
+      setTitulo('');
+      setDescricao('');
+      setResponsavel('');
+      setPrazo('');
+    }
   };
 
   return (
-    <>
-      <section className="bg-white shadow rounded-md p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <PlusCircle className="text-indigo-600" size={20} /> Nova Tarefa
-        </h2>
-
+    <section className="space-y-4">
+      <div className="bg-white shadow rounded p-4">
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">Nova Tarefa</h2>
         <input
-          className="w-full border border-gray-300 p-2 rounded-md mb-4"
-          type="text"
-          placeholder="Descrição da tarefa"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+          placeholder="Título da tarefa"
+          className="w-full border p-2 mb-2 rounded"
+        />
+        <textarea
           value={descricao}
           onChange={(e) => setDescricao(e.target.value)}
+          placeholder="Descrição da tarefa"
+          className="w-full border p-2 mb-2 rounded"
         />
         <input
-          className="w-full border border-gray-300 p-2 rounded-md mb-4"
-          type="text"
-          placeholder="Responsável pela tarefa"
           value={responsavel}
           onChange={(e) => setResponsavel(e.target.value)}
+          placeholder="Responsável pela tarefa"
+          className="w-full border p-2 mb-2 rounded"
         />
-
-        {erro && <p className="text-red-600 text-sm mb-4">{erro}</p>}
-
-        <button
-          onClick={handleAdicionar}
-          className="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-md"
+        <label className="block text-sm font-medium mb-1">Prioridade:</label>
+        <select
+          value={prioridade}
+          onChange={(e) => setPrioridade(e.target.value)}
+          className="w-full border p-2 mb-2 rounded"
         >
-          Adicionar Tarefa
+          <option value="baixa">Baixa</option>
+          <option value="média">Média</option>
+          <option value="alta">Alta</option>
+        </select>
+        <label className="block text-sm font-medium mb-1">Prazo:</label>
+        <input
+          type="date"
+          value={prazo}
+          onChange={(e) => setPrazo(e.target.value)}
+          className="w-full border p-2 mb-2 rounded"
+        />
+        <label className="block text-sm font-medium mb-1">Anexo:</label>
+        <input
+          type="file"
+          onChange={(e) => setArquivo(e.target.files[0])}
+          className="w-full mb-4"
+        />
+        <button
+          onClick={handleAdd}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
+        >
+          Adicionar
         </button>
-      </section>
+      </div>
 
-      <section>
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-lg font-semibold text-gray-800">Tarefas</h2>
-          <div className="flex items-center gap-2">
-            <Filter size={16} className="text-gray-600" />
-            <select
-              className="border border-gray-300 rounded px-2 py-1 text-sm"
-              value={filtro}
-              onChange={(e) => setFiltro(e.target.value)}
-            >
-              <option value="todas">Todas</option>
-              <option value="pendentes">Pendentes</option>
-              <option value="concluidas">Concluídas</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {tarefasFiltradas.length === 0 ? (
-            <p className="text-gray-500">Nenhuma tarefa.</p>
-          ) : (
-            tarefasFiltradas.map((t) => (
-              <TarefaCard key={t.id} tarefa={t} onConcluir={concluirTarefa} />
-            ))
-          )}
-        </div>
-      </section>
-    </>
+      <div className="space-y-3">
+        {tarefas.map((t) => (
+          <TarefaCard key={t.id} tarefa={t} onConcluir={concluirTarefa} usuario={usuario} />
+        ))}
+      </div>
+    </section>
   );
 }
