@@ -1,47 +1,47 @@
-import { useState } from 'react';
-import { registrarLog } from '../utils/log';
-import { toast } from 'react-toastify';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { renderHook, act } from '@testing-library/react';
+import useTarefas from '../../src/hooks/useTarefas';
 
-export default function useTarefas() {
-  const [tarefas, setTarefas] = useState([]);
+describe('useTarefas hook', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
 
-  function adicionarTarefa(titulo, descricao, responsavel, prioridade, prazo, status, criador, anexo) {
-    const nova = {
-      id: Date.now(),
-      titulo,
-      descricao,
-      responsavel,
-      prioridade,
-      prazo,
-      status,
-      criador,
-      data: new Date().toLocaleString(),
-      concluida: false,
-      anexo,
-    };
-    setTarefas((prev) => [nova, ...prev]);
-    registrarLog(criador, `adicionou a tarefa "${titulo}"`);
-    toast.success('Tarefa adicionada com sucesso!');
-  }
+  it('adiciona uma tarefa corretamente', () => {
+    const { result } = renderHook(() => useTarefas());
+    act(() => {
+      result.current.adicionarTarefa(
+        'Título Teste',
+        'Descrição Teste',
+        'Responsável',
+        'alta',
+        '2025-06-10',
+        'pendente',
+        'admin',
+        null
+      );
+    });
+    expect(result.current.tarefas.length).toBe(1);
+    expect(result.current.tarefas[0].titulo).toBe('Título Teste');
+  });
 
-  function concluirTarefa(id, usuario) {
-    setTarefas((prev) =>
-      prev.map((t) => {
-        if (t.id === id) {
-          registrarLog(usuario, `concluiu a tarefa "${t.titulo}"`);
-          toast.success('Tarefa concluída!');
-          return { ...t, concluida: true };
-        }
-        return t;
-      })
-    );
-  }
-
-  function atualizarStatus(id, novoStatus) {
-    setTarefas((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, status: novoStatus } : t))
-    );
-  }
-
-  return { tarefas, adicionarTarefa, concluirTarefa, atualizarStatus };
-}
+  it('conclui uma tarefa', () => {
+    const { result } = renderHook(() => useTarefas());
+    let id;
+    act(() => {
+      result.current.adicionarTarefa(
+        'Tarefa para concluir',
+        'Descrição',
+        'Responsável',
+        'média',
+        '2025-06-11',
+        'pendente',
+        'admin',
+        null
+      );
+      id = result.current.tarefas[0].id;
+      result.current.concluirTarefa(id, 'admin');
+    });
+    expect(result.current.tarefas[0].concluida).toBe(true);
+  });
+});

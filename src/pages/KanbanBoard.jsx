@@ -1,12 +1,12 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { useEffect, useState } from 'react';
-import useTarefas from '../hooks/useTarefas';
+import { useEffect, useState } from "react";
+import useTarefas from "../hooks/useTarefas";
 
 const statusColunas = [
-  { id: 'pendente', nome: 'Pendente' },
-  { id: 'em_andamento', nome: 'Em Andamento' },
-  { id: 'bloqueada', nome: 'Bloqueada' },
-  { id: 'concluida', nome: 'Concluída' },
+  { id: "pendente", nome: "Pendente" },
+  { id: "em_andamento", nome: "Em Andamento" },
+  { id: "bloqueada", nome: "Bloqueada" },
+  { id: "concluida", nome: "Concluída" }
 ];
 
 export default function KanbanBoard() {
@@ -15,8 +15,8 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     const nova = {};
-    statusColunas.forEach(col => {
-      nova[col.id] = tarefas.filter(t => t.status === col.id);
+    statusColunas.forEach((col) => {
+      nova[col.id] = tarefas.filter((t) => t.status === col.id);
     });
     setColunas(nova);
   }, [tarefas]);
@@ -29,28 +29,33 @@ export default function KanbanBoard() {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <DragDropContext onDragEnd={onDragEnd}>
-        {statusColunas.map(col => (
+        {statusColunas.map((col) => (
           <Droppable droppableId={col.id} key={col.id}>
             {(provided) => (
               <div
-                {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="bg-white rounded-md shadow p-4 min-h-[200px]"
+                {...provided.droppableProps}
+                className="kanban-column"
               >
                 <h3 className="font-semibold text-gray-700 mb-2">{col.nome}</h3>
                 {colunas[col.id]?.map((tarefa, index) => (
-                  <Draggable draggableId={String(tarefa.id)} index={index} key={tarefa.id}>
+                  <Draggable
+                    key={tarefa.id}
+                    draggableId={String(tarefa.id)}
+                    index={index}
+                  >
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="bg-gray-100 p-3 mb-2 rounded border border-gray-300"
+                        className="tarefa-card"
                       >
                         <p className="font-semibold text-sm">{tarefa.titulo}</p>
                         <p className="text-xs text-gray-600">{tarefa.responsavel}</p>
+                        <p className="text-xs text-gray-400">{tarefa.prazo}</p>
                       </div>
                     )}
                   </Draggable>
