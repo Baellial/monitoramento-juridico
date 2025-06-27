@@ -1,47 +1,49 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import useTarefas from '../../src/hooks/useTarefas';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { registrarLog } from '../utils/log';
 
-describe('useTarefas hook', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
+function useTarefas() {
+  const [tarefas, setTarefas] = useState([]);
 
-  it('adiciona uma tarefa corretamente', () => {
-    const { result } = renderHook(() => useTarefas());
-    act(() => {
-      result.current.adicionarTarefa(
-        'Título Teste',
-        'Descrição Teste',
-        'Responsável',
-        'alta',
-        '2025-06-10',
-        'pendente',
-        'admin',
-        null
-      );
-    });
-    expect(result.current.tarefas.length).toBe(1);
-    expect(result.current.tarefas[0].titulo).toBe('Título Teste');
-  });
+  useEffect(() => {
+    const salvas = localStorage.getItem('tarefas');
+    if (salvas) setTarefas(JSON.parse(salvas));
+  }, []);
 
-  it('conclui uma tarefa', () => {
-    const { result } = renderHook(() => useTarefas());
-    let id;
-    act(() => {
-      result.current.adicionarTarefa(
-        'Tarefa para concluir',
-        'Descrição',
-        'Responsável',
-        'média',
-        '2025-06-11',
-        'pendente',
-        'admin',
-        null
-      );
-      id = result.current.tarefas[0].id;
-      result.current.concluirTarefa(id, 'admin');
-    });
-    expect(result.current.tarefas[0].concluida).toBe(true);
-  });
-});
+  useEffect(() => {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+  }, [tarefas]);
+
+  const adicionarTarefa = (titulo, descricao, responsavel, prioridade, prazo, status, criador, anexo) => {
+    const nova = {
+      id: Date.now(),
+      titulo,
+      descricao,
+      responsavel,
+      prioridade,
+      prazo,
+      status,
+      criador,
+      anexo,
+      concluida: false,
+      data: new Date().toLocaleString()
+    };
+    setTarefas([nova, ...tarefas]);
+    registrarLog(criador, `adicionou tarefa: ${titulo}`);
+    toast.success('Tarefa adicionada');
+  };
+
+  const concluirTarefa = (id, usuario) => {
+    setTarefas((tarefas) =>
+      tarefas.map((t) =>
+        t.id === id ? { ...t, concluida: true, status: 'concluída' } : t
+      )
+    );
+    registrarLog(usuario, `concluiu tarefa ID: ${id}`);
+    toast.info('Tarefa concluída');
+  };
+
+  return { tarefas, adicionarTarefa, concluirTarefa };
+}
+
+export default useTarefas;

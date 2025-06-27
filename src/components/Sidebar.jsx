@@ -1,4 +1,4 @@
-import { LogOut, FileBarChart2, LayoutDashboard, Clock4, LayoutList, Pipeline } from 'lucide-react';
+import { LogOut, FileBarChart2, LayoutDashboard, Clock4, LayoutList, GitBranch } from 'lucide-react';
 
 export default function Sidebar({ setAba, aba, onLogout }) {
   const tabs = [
@@ -6,7 +6,7 @@ export default function Sidebar({ setAba, aba, onLogout }) {
     { id: 'relatorios', label: 'Relatórios', icon: <FileBarChart2 size={18} /> },
     { id: 'kanban', label: 'Kanban', icon: <LayoutList size={18} /> },
     { id: 'historico', label: 'Histórico', icon: <Clock4 size={18} /> },
-    { id: 'pipelines', label: 'Pipelines', icon: <Pipeline size={18} /> },
+    { id: 'pipelines', label: 'Pipelines', icon: <GitBranch size={18} /> },
   ];
 
   return (
