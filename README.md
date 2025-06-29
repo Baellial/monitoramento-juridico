@@ -1,7 +1,7 @@
-# 🧾 Sistema de Monitoramento Jurídico
+ 🧾 Sistema de Monitoramento Jurídico
 
-#Este projeto é um painel simples para monitoramento e gerenciamento de tarefas de uma Fábrica de Software Jurídico. Desenvolvido como parte da disciplina **Fábrica de Software** no curso de Engenharia de Software – UNICEPLAC.
-=======
+- Este projeto é um painel simples para monitoramento e gerenciamento de tarefas de uma Fábrica de Software Jurídico. Desenvolvido como parte da disciplina **Fábrica de Software** no curso de Engenharia de Software – UNICEPLAC.
+
 ## 📋 Funcionalidades
 
 - ✅ Autenticação com controle de acesso
@@ -18,9 +18,9 @@
 
 ---
 
-# 🛠 Tecnologias Utilizadas
+🛠 Tecnologias Utilizadas
 
-| Tecnologia         | Uso                                  |
+- | Tecnologia         | Uso                                  |
 |====================|======================================|
 | React              | Front-end SPA                        |
 | Tailwind CSS       | Estilização moderna e responsiva     |
@@ -46,7 +46,7 @@
 ```
 ---
 
-##🔐 Login de Teste
+🔐 Login de Teste
 Use as credenciais abaixo:
 
 Usuário: admin
@@ -54,9 +54,9 @@ Usuário: admin
 Senha: 1234
 
 ---
-##📚 Estrutura de Diretórios
+📚 Estrutura de Diretórios
 
-├── public/
+- ├── public/
 │   └── index.html
 ├── src/
 │   ├── components/         # Componentes reutilizáveis (Sidebar, TarefaCard)
@@ -72,5 +72,5 @@ Senha: 1234
 
 ---
 
-##Sobre o projeto:
+- **Sobre o projeto:**
 Desenvolvido como parte de um projeto acadêmico e profissional para automatizar e melhorar o acompanhamento de equipes de desenvolvimento de software jurídico, promovendo produtividade, qualidade e rastreabilidade.
