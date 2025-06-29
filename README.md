@@ -1,6 +1,6 @@
 # 🧾 Sistema de Monitoramento Jurídico
 
-###Este projeto é um painel simples para monitoramento e gerenciamento de tarefas de uma Fábrica de Software Jurídico. Desenvolvido como parte da disciplina **Fábrica de Software** no curso de Engenharia de Software – UNICEPLAC.
+#Este projeto é um painel simples para monitoramento e gerenciamento de tarefas de uma Fábrica de Software Jurídico. Desenvolvido como parte da disciplina **Fábrica de Software** no curso de Engenharia de Software – UNICEPLAC.
 =======
 ## 📋 Funcionalidades
 
@@ -18,7 +18,7 @@
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+# 🛠 Tecnologias Utilizadas
 
 | Tecnologia         | Uso                                  |
 |====================|======================================|
